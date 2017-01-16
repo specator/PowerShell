@@ -1,0 +1,32 @@
+#Sets the machine powerplan to one of three settings: 
+# High performance 
+# Balanced 
+#Power saver 
+
+PARAM 
+( 
+    [Parameter(Mandatory=$true)][ValidateSet("High performance", "Balanced", "Power saver")] 
+    [string]$PreferredPlan 
+)
+
+function Set-PowerPlan([string]$PreferredPlan) 
+{ 
+$plan = $null
+
+$plan = Get-WmiObject -Namespace root\cimv2\power -Class win32_PowerPlan -Filter "IsActive = 'True'"
+Write-Host "Currently active power plan: " -NoNewline
+Write-Host $plan.ElementName -ForegroundColor Yellow
+
+$plan = Get-WmiObject -Namespace root\cimv2\power -Class win32_PowerPlan -Filter "ElementName = '$PreferredPlan'"
+$plan.Activate()
+
+#$plan = Get-CimInstance -Name root\cimv2\power -Class win32_PowerPlan -Filter "ElementName = 'High Performance'"          
+#Invoke-CimMethod -InputObject $plan -MethodName Activate
+
+$plan = Get-WmiObject -Namespace root\cimv2\power -Class win32_PowerPlan -Filter "IsActive = 'True'"
+Write-Host "Changed to power plan:       " -NoNewline
+Write-Host $plan.ElementName -ForegroundColor Yellow
+}
+
+#set Preferred powerplan 
+Set-PowerPlan $PreferredPlan
