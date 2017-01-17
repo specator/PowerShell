@@ -18,7 +18,7 @@ Write-Host "Currently active power plan: " -NoNewline
 Write-Host $plan.ElementName -ForegroundColor Yellow
 
 $plan = Get-WmiObject -Namespace root\cimv2\power -Class win32_PowerPlan -Filter "ElementName = '$PreferredPlan'"
-$plan.Activate()
+$plan.Activate() | Out-Null
 
 #$plan = Get-CimInstance -Name root\cimv2\power -Class win32_PowerPlan -Filter "ElementName = 'High Performance'"          
 #Invoke-CimMethod -InputObject $plan -MethodName Activate
