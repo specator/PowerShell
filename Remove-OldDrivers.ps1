@@ -133,5 +133,5 @@ foreach ( $item in $ToDel ) {
     Write-Host " " -ForegroundColor Green
     Write-Host "удаляем $Name" -ForegroundColor Green
     Write-Host "pnputil.exe -d $Name" -ForegroundColor Green
-    Invoke-Expression -Command "pnputil.exe -d $Name"
+ #   Invoke-Expression -Command "pnputil.exe -d $Name"
 }
